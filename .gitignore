@@ -1,0 +1,12 @@
+.DS_Store
+Doxyfile
+Doxyfile.bak
+__init__.py
+__pycache__/
+cache/
+docs/.DS_Store
+docs/_build/
+models/.DS_Store
+models/__pycache__/
+refman.log
+rexactor/.DS_Store
