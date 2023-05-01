@@ -1,10 +1,30 @@
 from trex.positions import *
 from trex.tokens import *
-from trex.operators import *
+from operators import *
 from grex.alignment import *
+import pandas as pd
+import sys
+sys.path.append("../")
+import tapcap
+
 
 def main(filepath, threshold1, threshold2):
-    pysharkList = load_file(filepath)
+    CSVextension = filepath[len(filepath) - 3:].lower()
+    PCAPextension = filepath[len(filepath) - 4:].lower()
+    PCAPNGextension = filepath[len(filepath) - 6:].lower()
+
+    colnames=["frame_number", "time", "highest_protocol", "l4_protocol", "text", "src_ip", "src_port", "dst_ip", "dst_port", "len", "ipflags", "tos", "bytes"]
+
+    if PCAPextension == "pcap" or PCAPNGextension == "pcapng":
+        pcap2csv(filepath, "local.csv")
+        filepath = "local.csv"
+    elif CSVextension != "csv":
+        print("Invalid source file provided. Must be .csv, .pcap, or .pcapng.")
+        return
+
+    file = pd.read_csv(filepath, names=colnames, delimiter="|", header=None)
+    pysharkList = [i for i in list(file["text"]) if i != '']
+    count = 0
 
     #init lists to be used
     tokenList = []
@@ -64,7 +84,7 @@ def main(filepath, threshold1, threshold2):
     regex_string = ""
     result = ""
 
-    print("Regex: \n")
+    print("Regex: ")
     escaped_regex = extraBack(regex_string.join(regexfinal))
     result = prefix + escaped_regex + suffix
     print(result)

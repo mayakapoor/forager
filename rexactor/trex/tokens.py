@@ -1,6 +1,6 @@
 from trex.positions import *
 from trex.tokens import *
-from trex.operators import *
+from operators import *
 from os import path
 import pandas as pd
 from efficient_apriori import apriori
@@ -10,7 +10,7 @@ def reverse_packets(packets):
     i = 0
     p2 = []
     tempstr = " "
-    wile i < len(packets):
+    while i < len(packets):
         temp = packets[i]
         temp = temp[::-1]
         p2.append(temp)
@@ -91,11 +91,11 @@ def make_tokens(input_data, min_sup, min_conf, max_len, win_size):
                 doNotAdd = False
                 for old_token in list(tokens.keys()):
                     # get rid of shorter tokens with the same support
-                    if old_token in token[0] and ((tokens[old_token] - itme[token])/tokens[old_token]) < 0.1:
+                    if old_token in token[0] and ((tokens[old_token] - item[token])/tokens[old_token]) < 0.1:
                         tokens.pop(old_token)
                     # do not add the more specific tokens with significantly less support than a current one
-                elif old_token in token[0] and ((tokens[old_token] - item[token])/tokens[old_token]) > 0.05:
-                    doNotAdd = False
+                    elif old_token in token[0] and ((tokens[old_token] - item[token])/tokens[old_token]) > 0.05:
+                        doNotAdd = False
                 if not doNotAdd:
                     tokens[token[0]] = item[token]
         # If no more frequent item sets can be generated, return

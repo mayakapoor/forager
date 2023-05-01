@@ -8,8 +8,96 @@ bigSigma = '\u03A3'
 smallLambda = '\u03BB'
 #smallOmega = '\u03C9'
 smallOmega = '[a-zA-Z]'
-smallPsi = '\u3C8'
+smallPsi = '\u03C8'
 smallSigma = '\u03C3'
+
+def exactChar(c, n):
+    if (n) > 1:
+        g.append(c)
+        g.append('{')
+        g.append(str(n))
+        g.append('}')
+    else:
+        g.append(c)
+
+def alphaChar(n):
+    g = []
+    if (n) > 1:
+        g.append('[a-zA-Z]')
+        g.append('{')
+        g.append(str(n))
+        g.append('}')
+    else:
+        g.append('[a-zA-Z]')
+    return g
+
+def digitChar(n):
+    g = []
+    if (n) > 1:
+        g.append('\d')
+        g.append('{')
+        g.append(str(n))
+        g.append('}')
+    else:
+        g.append('\d')
+    return g
+
+def whitespaceChar(n):
+    g = []
+    if (n) > 1:
+        g.append('\s')
+        g.append('{')
+        g.append(str(n))
+        g.append('}')
+    else:
+        g.append('\s')
+    return g
+
+def notAlphaChar(n):
+    g = []
+    if (n) > 1:
+        g.append('\W')
+        g.append('{')
+        g.append(str(n))
+        g.append('}')
+    else:
+        g.append('\W')
+    return g
+
+def notDigitChar(n):
+    g = []
+    if (n) > 1:
+        g.append('\D')
+        g.append('{')
+        g.append(str(n))
+        g.append('}')
+    else:
+        g.append('\D')
+    return g
+
+def notWhitespaceChar(n):
+    g = []
+    if (n) > 1:
+        g.append('\S')
+        g.append('{')
+        g.append(str(n))
+        g.append('}')
+    else:
+        g.append('\S')
+    return g
+
+def removeStars(regex):
+    i = 0
+    while i < len(regex):
+        if i + 3 < len(regex):
+            if regex[i] == '*' and regex[i+2] == '{': #error
+                note = str(regex[i+3]) + ','
+                regex[i+3] = note
+                regex.pop(i)
+            i += 1
+        else:
+            break
+    return regex
 
 # add an extra back/escape sequence
 def extraBack(dooku):
@@ -27,8 +115,12 @@ def extraBack(dooku):
 def isGreek(yoda):
     return yoda in [smallOmega, smallLambda, smallSigma, smallPsi, bigPi, bigOmega, bigSigma, bigDelta, bigPhi]
 
+def isSpecial(c):
+    specList = ['*', '?', '+', '|', '^', '.', ',', '$', '(', ')', '{', '}', '[', ']']
+    return c in specList
+
 # return a string indicating the type of character per posix character class
-def charType(c):
+def char_type(c):
     ctype = "special" # punctuation, etc
     if is_not_char(c):
         cType = "notChar"
@@ -43,7 +135,7 @@ def charType(c):
     elif (c.isspace()) or (is_ws(c)):
         ctype = "space"
     return ctype
-    
+
 # check if not alpha char
 def is_not_char(c):
     return c == smallOmega
@@ -62,7 +154,7 @@ def is_char(c):
 
 # check if whitespace char
 def is_ws(c):
-    reutrn c == bigOmega
+    return c == bigOmega
 
 # check if digit
 def is_digit(c):

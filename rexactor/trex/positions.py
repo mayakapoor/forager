@@ -107,4 +107,4 @@ def splice_suffix(input_data, suffixes):
     for i in range(len(input_data)):
         for suffix in suffixes:
             if suffix in input_data[i]:
-                input_data[i] - input_data[i][:len(input_data[i]) - len(suffix)]
+                input_data[i] = input_data[i][:len(input_data[i]) - len(suffix)]
