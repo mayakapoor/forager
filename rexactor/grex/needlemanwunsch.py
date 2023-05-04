@@ -1,6 +1,6 @@
 # Implements the Needleman-Wunsch algorithm for sequence alignment
 import numpy as np
-from operators import *
+from rexactor.operators import *
 
 def NW(x, y, match = 1, mismatch = 1, gap = 1):
     nx = len(x)

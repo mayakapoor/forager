@@ -1,5 +1,5 @@
-from operators import *
-from grex.needlemanwunsch import *
+from rexactor.operators import *
+from rexactor.grex.needlemanwunsch import *
 
 # not digit
 def exception1(dig):

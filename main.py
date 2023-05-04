@@ -8,6 +8,8 @@ import numpy
 from pick import pick
 from pandas import read_csv, concat, DataFrame
 from sklearn.preprocessing import OneHotEncoder
+from rexactor.trex import tokens
+from rexactor.rexactor import generate
 import models.alpine as ALPINE
 import models.palm as PALM
 import models.maple as MAPLE
@@ -43,8 +45,8 @@ if __name__ == "__main__":
     print("Forager: A Network Training Classification Toolkit")
     title = 'Forager: A Network Training Classification Toolkit.\n\t Please choose a task: '
     options = ['tabularize packet data (TapCap)',
-               'mine tokens only (TRex)',
-               'generate regular expression signatures (GRex)',
+               'mine tokens only (RExACtor)',
+               'generate regular expression signatures (RExACtor)',
                'configure and train models (ALPINE, PALM, MAPLE, DATE)',
                'classify packets (ALPINE, PALM, MAPLE, DATE)',
                'clear current cache']
@@ -72,9 +74,65 @@ if __name__ == "__main__":
 
     if index == 1:
         print("TRex - frequent tokens will be extracted.")
+        thres = float(input("Frequency threshold (0.0 - 1.0)? "))
+        filepath = input("File input path (PCAP, PCAPNG, or CSV)? ")
+        while not os.path.isfile(filepath):
+            print("File not found.")
+            filepath = input("File input path (PCAP, PCAPNG, or CSV)? ")
+
+        CSVextension = filepath[len(filepath) - 3:].lower()
+        PCAPextension = filepath[len(filepath) - 4:].lower()
+        PCAPNGextension = filepath[len(filepath) - 6:].lower()
+
+        if PCAPextension == "pcap" or PCAPNGextension == "pcapng":
+            pcap2csv(filepath, "local.csv")
+            filepath = "local.csv"
+        elif CSVextension != "csv":
+            print("Invalid source file provided. Must be .csv, .pcap, or .pcapng.")
+            sys.exit()
+
+        colnames=["frame_number", "time", "highest_protocol", "l4_protocol", "text", "src_ip", "src_port", "dst_ip", "dst_port", "len", "ipflags", "tos", "bytes"]
+        file = read_csv(filepath, names=colnames, delimiter="|", header=None)
+        pysharkList = [i for i in list(file["text"]) if i != '']
+        count = 0
+
+        #init lists to be used
+        tokenList = []
+        posList = []
+
+        print("Mining tokens...")
+        #make certain tokens and track their positions
+        tokenList = tokens.make_tokens(pysharkList, thres, 1, 1, 2)
+        #revPack = tokens.reverse_packets(pysharkList)
+        #revTokenList = tokens.make_tokens(revPack, thres, 1, 1, 2)
+        print("Tokens Extracted: ", tokenList.keys())
+        #print("Reverse Tokens Created: ", revTokenList)
+
 
     if index == 2:
         print("GRex - a regular expression signature will be generated.")
+        preThres = float(input("Prefix frequency threshold (0.0 - 1.0)? "))
+        sufThres = float(input("Suffix frequency threshold (0.0 - 1.0)? "))
+        filepath = input("File input path (PCAP, PCAPNG, or CSV)? ")
+        while not os.path.isfile(filepath):
+            print("File not found.")
+            filepath = input("File input path (PCAP, PCAPNG, or CSV)? ")
+
+        CSVextension = filepath[len(filepath) - 3:].lower()
+        PCAPextension = filepath[len(filepath) - 4:].lower()
+        PCAPNGextension = filepath[len(filepath) - 6:].lower()
+
+        if PCAPextension == "pcap" or PCAPNGextension == "pcapng":
+            pcap2csv(filepath, "local.csv")
+            filepath = "local.csv"
+        elif CSVextension != "csv":
+            print("Invalid source file provided. Must be .csv, .pcap, or .pcapng.")
+            sys.exit()
+
+        colnames=["frame_number", "time", "highest_protocol", "l4_protocol", "text", "src_ip", "src_port", "dst_ip", "dst_port", "len", "ipflags", "tos", "bytes"]
+        file = read_csv(filepath, names=colnames, delimiter="|", header=None)
+        pysharkList = [i for i in list(file["text"]) if i != '']
+        generate(pysharkList, preThres, sufThres)
 
     if index == 3:
         print("Entering training mode...")

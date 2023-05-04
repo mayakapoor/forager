@@ -4,26 +4,32 @@
    contain the root `toctree` directive.
 
 Forager: A Network Traffic Classification Toolkit
-===================================
+==================================================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-Installation
-==================
-
+   install
+   support
 
 Data Engineering Tools
-==================
-* :ref:`TRex`
-* :ref:`GRex`
-* :ref:`TaPCAP`
+=======================
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   tapcap
+   rexactor
 
 Trainable Models
-==================
-* :ref:`ALPINE`
-* :ref:`PALM`
-* :ref:`MAPLE`
-* :ref:`DATE`
-* :ref:`search`
+=======================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   alpine
+   palm
+   maple
+   date

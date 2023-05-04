@@ -1,5 +1,3 @@
-import numpy as np
-
 bigDelta = '\u0394'
 bigOmega = '\u03A9'
 bigPhi = '\u03D5'

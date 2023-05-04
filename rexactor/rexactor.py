@@ -1,29 +1,14 @@
-from trex.positions import *
-from trex.tokens import *
-from operators import *
-from grex.alignment import *
+from rexactor.trex.positions import *
+from rexactor.trex.tokens import *
+from rexactor.operators import *
+from rexactor.grex.alignment import *
 import pandas as pd
 import sys
 sys.path.append("../")
 import tapcap
 
 
-def main(filepath, threshold1, threshold2):
-    CSVextension = filepath[len(filepath) - 3:].lower()
-    PCAPextension = filepath[len(filepath) - 4:].lower()
-    PCAPNGextension = filepath[len(filepath) - 6:].lower()
-
-    colnames=["frame_number", "time", "highest_protocol", "l4_protocol", "text", "src_ip", "src_port", "dst_ip", "dst_port", "len", "ipflags", "tos", "bytes"]
-
-    if PCAPextension == "pcap" or PCAPNGextension == "pcapng":
-        pcap2csv(filepath, "local.csv")
-        filepath = "local.csv"
-    elif CSVextension != "csv":
-        print("Invalid source file provided. Must be .csv, .pcap, or .pcapng.")
-        return
-
-    file = pd.read_csv(filepath, names=colnames, delimiter="|", header=None)
-    pysharkList = [i for i in list(file["text"]) if i != '']
+def generate(pysharkList, threshold1, threshold2):
     count = 0
 
     #init lists to be used
@@ -37,7 +22,7 @@ def main(filepath, threshold1, threshold2):
     prefixList = []
     suffixList = []
 
-    print("making tokens...")
+    print("Mining tokens...")
     #make certain tokens and track their positions
     tokenList = make_tokens(pysharkList, 1, 1, 1, 2)
     posList = track_positions(pysharkList)
@@ -69,10 +54,10 @@ def main(filepath, threshold1, threshold2):
     if suffix == "()$":
         suffix = ""
 
-    print("Tokens Created: ", tokenList)
+    print("Tokens Extracted: ", tokenList)
     #print("Single Byte Tokens Created: ", singleByteTokens)
-    print("\nPrefixes: ", prefix)
-    print("\nSuffixes: ", suffix)
+    print("Prefixes: ", prefix)
+    print("Suffixes: ", suffix)
 
     #remove max length of prefix/suffix from string
     splice_prefix(pysharkList, prefixes)
@@ -84,10 +69,9 @@ def main(filepath, threshold1, threshold2):
     regex_string = ""
     result = ""
 
-    print("Regex: ")
     escaped_regex = extraBack(regex_string.join(regexfinal))
     result = prefix + escaped_regex + suffix
-    print(result)
+    print("Regex: " + str(result))
 
 if __name__ == "__main__":
     print("input file path: ")
@@ -96,4 +80,4 @@ if __name__ == "__main__":
     thres1 = float(input())
     print("suffix frequent token threshold (0.0-1.0): ")
     thres2 = float(input())
-    main(fp, thres1, thres2)
+    generate(fp, thres1, thres2)
