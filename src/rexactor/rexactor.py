@@ -23,8 +23,6 @@ def generate(pysharkList, threshold1, threshold2):
     suffixList = []
 
     print("Mining tokens...")
-    #make certain tokens and track their positions
-    tokenList = make_tokens(pysharkList, 1, 1, 1, 2)
     posList = track_positions(pysharkList)
 
     #reverse the packets
@@ -54,7 +52,6 @@ def generate(pysharkList, threshold1, threshold2):
     if suffix == "()$":
         suffix = ""
 
-    print("Tokens Extracted: ", tokenList)
     #print("Single Byte Tokens Created: ", singleByteTokens)
     print("Prefixes: ", prefix)
     print("Suffixes: ", suffix)

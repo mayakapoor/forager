@@ -135,3 +135,18 @@ Or, if you have pip installed::
 
 Usage
 ~~~~~~
+
+Users can provide a PCAP file to RExACtor in order to generate signatures,
+or a CSV file following the :ref:`tapcap` output schema. Once run,
+users will be prompted to select token or regex mode. Then, according
+to the selection they will be required to input a single threshold of Support
+or one for prefix and suffix, respectively. Any generated tokens or
+regular expressions will be printed to standard output.
+
+**Publication:**
+
+Kapoor, M., Fuchs, G., Quance, J.
+`RExACtor: Automatic Regular Expression Signature Generation for Stateless
+Packet Inspection. <https://ieeexplore.ieee.org/document/9685959>`_
+In proceedings of IEEE 20th International Symposium
+on Network Computing and Applications (NCA). 23-26 November, 2021.

@@ -85,21 +85,25 @@ def make_tokens(input_data, min_sup, min_conf, max_len, win_size):
         # In the same idea, if a new token has a support greater than the min but there already
         # exists a token that is a substring of it and it has greater support, keep the more
         # generalized version.
+        total_cov = 0.0
+        support = 0.0
 
         for item in itemsets.values():
             for token in list(item.keys()):
                 doNotAdd = False
                 for old_token in list(tokens.keys()):
+                    support_diff = ((tokens[old_token] - item[token])/tokens[old_token])
                     # get rid of shorter tokens with the same support
-                    if old_token in token[0] and ((tokens[old_token] - item[token])/tokens[old_token]) < 0.1:
+                    if old_token in token[0] and support_diff < 0.001:
                         tokens.pop(old_token)
                     # do not add the more specific tokens with significantly less support than a current one
-                    elif old_token in token[0] and ((tokens[old_token] - item[token])/tokens[old_token]) > 0.05:
+                    elif old_token in token[0] and support_diff > 0.05:
                         doNotAdd = False
                 if not doNotAdd:
                     tokens[token[0]] = item[token]
         # If no more frequent item sets can be generated, return
         if len(itemsets) == 0:
+            print("total coverage: " + str(total_cov))
             return tokens
         # Increment window size and repeat
         win_size = win_size + 1

@@ -1,3 +1,5 @@
+.. _tapcap:
+
 TaPCAP
 =======
 

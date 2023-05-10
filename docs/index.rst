@@ -6,30 +6,34 @@
 Forager: A Network Traffic Classification Toolkit
 ==================================================
 
+At the command line::
+
+    easy_install forager
+
+Or, if you have pip installed::
+
+    pip install forager
+
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
-
-   install
-   support
-
-Data Engineering Tools
-=======================
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :caption: Data Engineering Tools
 
    tapcap
    rexactor
 
-Trainable Models
-=======================
-
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Trainable Models
 
    alpine
    palm
    maple
    date
+
+Support
+==================
+
+Questions, comments, or suggestions?
+Contact Maya Kapoor.
+
+Email: mkapoor1@uncc.edu
