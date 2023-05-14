@@ -12,7 +12,7 @@ import models.alpine as ALPINE
 import models.palm as PALM
 import models.maple as MAPLE
 import models.date as DATE
-import ensemble
+from ensemble import *
 
 import rexactor
 import tapcap
