@@ -4,7 +4,7 @@ import os
 import pylibmagic
 import magic
 import pickle
-import numpy
+import numpy as np
 from pick import pick
 from pandas import read_csv, concat, DataFrame
 from sklearn.preprocessing import OneHotEncoder
@@ -12,7 +12,6 @@ import models.alpine as ALPINE
 import models.palm as PALM
 import models.maple as MAPLE
 import models.date as DATE
-from ensemble import *
 
 import rexactor
 import tapcap
@@ -33,6 +32,15 @@ maple_labels = maple_cache + "/labels.txt"
 date_h5 = date_cache + "/date.h5"
 date_json = date_cache + "/date.json"
 date_labels = date_cache + "/labels.txt"
+
+def vote(voters):
+    joined = voters[0]
+    for i in range(1, len(voters)-1):
+        joined = np.concatenate((joined, voters[i]), axis=1)
+    ballot = []
+    for votes in joined:
+        ballot.append(max(set(votes), key=votes.count))
+    return ballot
 
 def main():
     if not os.path.exists(root_cache):
@@ -136,8 +144,8 @@ def main():
                 another = False
 
         enc = OneHotEncoder()
-        enc.fit(numpy.array(all_dfs["label"]).reshape(-1,1))
-        train_labels = enc.transform(numpy.array(all_dfs["label"]).reshape(-1,1)).toarray()
+        enc.fit(np.array(all_dfs["label"]).reshape(-1,1))
+        train_labels = enc.transform(np.array(all_dfs["label"]).reshape(-1,1)).toarray()
         labels = sorted(labels)
 
         alpineCount = [0]
