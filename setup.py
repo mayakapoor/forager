@@ -14,7 +14,7 @@ setuptools.setup(
     url = "https://github.com/mayakapoor/forager",
     project_urls = {
         "Bug Tracker": "https://github.com/mayakapoor/forager/issues",
-        "Documentation": "https://forager.readthedocs.io/en/latest/"
+        "Documentation": "https://forager-toolkit.readthedocs.io/en/latest/"
     },
     classifiers = [
         "Programming Language :: Python :: 3",
