@@ -302,8 +302,8 @@ def main():
 
         results_file = open(outfile, "w+")
         newline = ""
-        for vote in ensemble.vote(votes):
-            results_file.write(newline + vote)
+        for v in vote(votes):
+            results_file.write(newline + v)
             newline = "\n"
         print("Results available.")
 
