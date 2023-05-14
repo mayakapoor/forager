@@ -1,25 +1,3 @@
 [build-system]
 requires = ['setuptools>=42']
 build-backend = 'setuptools.build_meta'
-
-[metadata]
-name = 'forager'
-version = 1.0
-author = 'Maya Kapoor'
-author_email = 'mkapoor1@uncc.edu'
-description = 'A Network Traffic Classification Toolkit'
-long_description = 'file: README.md'
-long_description_content_type = 'text/markdown'
-url = 'package url'
-classifiers =
-    Programming Language :: Python :: 3
-    License :: OSI Approved :: MIT License
-    Operating System :: OS Independent
-
-[options]
-package_dir = 'src'
-packages = 'find: rexactor, tapcap'
-python_requires = >=3.6
-
-[options.packages.find]
-where = 'src'

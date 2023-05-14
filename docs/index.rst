@@ -8,11 +8,11 @@ Forager: A Network Traffic Classification Toolkit
 
 At the command line::
 
-    easy_install forager
+    easy_install forager-toolkit
 
 Or, if you have pip installed::
 
-    pip install forager
+    pip install forager-toolkit
 
 .. toctree::
    :maxdepth: 2

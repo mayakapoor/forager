@@ -23,16 +23,18 @@ order to create tabular feature data.
 Installation
 ~~~~~~~~~~~~~
 
-At the command line::
-
-    easy_install tapcap
-
-Or, if you have pip installed::
-
-    pip install tapcap
+`TaPCAP <https://tapcap.readthedocs.io/en/latest/>`_ is installed
+as a dependency when Forager is installed.
 
 Usage
 ~~~~~~
+
+**CLI:**
+
+.. code-block::
+    tapcap
+
+**source file:**
 
 .. code-block::
 
@@ -46,6 +48,9 @@ TaPCAP accepts two arguments: a **PCAP input file path** and a **CSV output file
 path**. Both of these paths should be provided as absolute paths. The input file
 will be parsed according to the following schema into CSV format, and written
 to the provided output path.
+
+Output Schema
+~~~~~~~~~~~~~~
 
 .. list-table:: Output Schema
    :widths: 10 20 50

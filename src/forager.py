@@ -8,15 +8,14 @@ import numpy
 from pick import pick
 from pandas import read_csv, concat, DataFrame
 from sklearn.preprocessing import OneHotEncoder
-from rexactor.trex import tokens
-from rexactor.rexactor import generate
 import models.alpine as ALPINE
 import models.palm as PALM
 import models.maple as MAPLE
 import models.date as DATE
-
-import tapcap
 import ensemble
+
+import rexactor
+import tapcap
 
 root_cache = "cache"
 alpine_cache = root_cache + "/alpine"
@@ -35,8 +34,7 @@ date_h5 = date_cache + "/date.h5"
 date_json = date_cache + "/date.json"
 date_labels = date_cache + "/labels.txt"
 
-if __name__ == "__main__":
-
+def main():
     if not os.path.exists(root_cache):
         os.makedirs(root_cache)
     if not os.path.exists(results_cache):
@@ -44,8 +42,7 @@ if __name__ == "__main__":
 
     print("Forager: A Network Training Classification Toolkit")
     title = 'Forager: A Network Training Classification Toolkit.\n\t Please choose a task: '
-    options = ['tabularize packet data (TapCap)',
-               'mine tokens only (RExACtor)',
+    options = ['tabularize packet data (TaPCAP)',
                'generate regular expression signatures (RExACtor)',
                'configure and train models (ALPINE, PALM, MAPLE, DATE)',
                'classify packets (ALPINE, PALM, MAPLE, DATE)',
@@ -54,7 +51,7 @@ if __name__ == "__main__":
     option, index = pick(options, title, indicator='=>', default_index=0)
 
     if index == 0:
-        print("TapCap - features will be extracted to tabular format.")
+        print("TaPCAP - features will be extracted to tabular format.")
         another = True
         while another:
             filepath = input("PCAP file input path? ")
@@ -73,44 +70,7 @@ if __name__ == "__main__":
                 another = False
 
     if index == 1:
-        print("TRex - frequent tokens will be extracted.")
-        thres = float(input("Frequency threshold (0.0 - 1.0)? "))
-        filepath = input("File input path (PCAP, PCAPNG, or CSV)? ")
-        while not os.path.isfile(filepath):
-            print("File not found.")
-            filepath = input("File input path (PCAP, PCAPNG, or CSV)? ")
-
-        CSVextension = filepath[len(filepath) - 3:].lower()
-        PCAPextension = filepath[len(filepath) - 4:].lower()
-        PCAPNGextension = filepath[len(filepath) - 6:].lower()
-
-        if PCAPextension == "pcap" or PCAPNGextension == "pcapng":
-            pcap2csv(filepath, "local.csv")
-            filepath = "local.csv"
-        elif CSVextension != "csv":
-            print("Invalid source file provided. Must be .csv, .pcap, or .pcapng.")
-            sys.exit()
-
-        colnames=["frame_number", "time", "highest_protocol", "l4_protocol", "text", "src_ip", "src_port", "dst_ip", "dst_port", "len", "ipflags", "tos", "bytes"]
-        file = read_csv(filepath, names=colnames, delimiter="|", header=None)
-        pysharkList = [i for i in list(file["text"]) if i != '']
-        count = 0
-
-        #init lists to be used
-        tokenList = []
-        posList = []
-
-        print("Mining tokens...")
-        #make certain tokens and track their positions
-        tokenList = tokens.make_tokens(pysharkList, thres, 1, 1, 2)
-        #revPack = tokens.reverse_packets(pysharkList)
-        #revTokenList = tokens.make_tokens(revPack, thres, 1, 1, 2)
-        print("Tokens Extracted: ", tokenList.keys())
-        #print("Reverse Tokens Created: ", revTokenList)
-
-
-    if index == 2:
-        print("GRex - a regular expression signature will be generated.")
+        print("RExACtor - a regular expression signature will be generated.")
         preThres = float(input("Prefix frequency threshold (0.0 - 1.0)? "))
         sufThres = float(input("Suffix frequency threshold (0.0 - 1.0)? "))
         filepath = input("File input path (PCAP, PCAPNG, or CSV)? ")
@@ -123,18 +83,14 @@ if __name__ == "__main__":
         PCAPNGextension = filepath[len(filepath) - 6:].lower()
 
         if PCAPextension == "pcap" or PCAPNGextension == "pcapng":
-            pcap2csv(filepath, "local.csv")
+            tapcap.pcap2csv(filepath, "local.csv")
             filepath = "local.csv"
         elif CSVextension != "csv":
             print("Invalid source file provided. Must be .csv, .pcap, or .pcapng.")
             sys.exit()
+        rexactor.main(filepath, preThres, sufThres)
 
-        colnames=["frame_number", "time", "highest_protocol", "l4_protocol", "text", "src_ip", "src_port", "dst_ip", "dst_port", "len", "ipflags", "tos", "bytes"]
-        file = read_csv(filepath, names=colnames, delimiter="|", header=None)
-        pysharkList = [i for i in list(file["text"]) if i != '']
-        generate(pysharkList, preThres, sufThres)
-
-    if index == 3:
+    if index == 2:
         print("Entering training mode...")
         cont = input("WARNING: editing a model's configuration will override its current cache and settings. Continue (y/n)? ")
         if cont == "n" or cont == "N":
@@ -261,7 +217,7 @@ if __name__ == "__main__":
             label_file.close()
         print("Training complete. Models saved to " + root_cache + ".")
 
-    if index == 4:
+    if index == 3:
         print("Entering testing mode...")
         title = 'Forager: A Network Training Classification Toolkit.\nPlease choose one or more models to test with (press SPACE to mark, ENTER to continue): '
         options = ['ALPINE',
@@ -342,3 +298,15 @@ if __name__ == "__main__":
             results_file.write(newline + vote)
             newline = "\n"
         print("Results available.")
+
+    if index == 4:
+        answer = input("All cache files will be deleted. Proceed (y/n)? ")
+        if answer == 'y' or answer == 'Y':
+            os.remove(alpine_cache + "/*")
+            os.remove(palm_cache + "/*")
+            os.remove(maple_cache + "/*")
+            os.remove(date_cache + "/*")
+            print("Files deleted.")
+
+if __name__ == "__main__":
+    main()
