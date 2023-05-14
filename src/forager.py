@@ -39,7 +39,7 @@ def vote(voters):
         joined = np.concatenate((joined, voters[i]), axis=1)
     ballot = []
     for votes in joined:
-        ballot.append(max(set(votes), key=votes.count))
+        ballot.append(max(set(votes), key=votes.tolist().count))
     return ballot
 
 def main():
@@ -284,7 +284,6 @@ def main():
             else:
                 label_file = open(maple_labels, "r")
                 labels = label_file.read().split("\n")
-                print(labels)
                 maple = MAPLE.Maple(labels, col_name="bytes", weights_path=maple_h5, json_path=maple_json, num_votes=10, use_existing=True)
                 maple_results = maple.predict(all_dfs)
                 votes.append(maple_results)
@@ -302,10 +301,11 @@ def main():
 
         results_file = open(outfile, "w+")
         newline = ""
+        print(votes)
         for v in vote(votes):
             results_file.write(newline + v)
             newline = "\n"
-        print("Results available.")
+        print("Results available at " + str(outfile) + ".")
 
     if index == 4:
         answer = input("All cache files will be deleted. Proceed (y/n)? ")
