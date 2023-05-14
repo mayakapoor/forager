@@ -14,5 +14,4 @@ python_magic==0.4.27
 scapy==2.4.3
 scikit_learn==1.0.1
 tensorflow==2.6.0
-util==0.0.1
 xxhash==3.0.0
