@@ -304,7 +304,6 @@ def main():
 
         results_file = open(outfile, "w+")
         newline = ""
-        print(votes)
         for v in vote(votes):
             results_file.write(newline + v)
             newline = "\n"
