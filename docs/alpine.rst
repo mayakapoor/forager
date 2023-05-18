@@ -140,8 +140,8 @@ saved to ``cache/alpine/labels.txt``.
 
 .. code-block::
 
-Forager: A Network Training Classification Toolkit.
-        Please choose a task:
+  Forager: A Network Training Classification Toolkit.
+  Please choose a task:
 
      tabularize packet data (TaPCAP)
      generate regular expression signatures (RExACtor)
