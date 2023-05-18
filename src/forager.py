@@ -8,6 +8,7 @@ import numpy as np
 from pick import pick
 from pandas import read_csv, concat, DataFrame
 from sklearn.preprocessing import OneHotEncoder
+from statistics import mode
 import models.alpine as ALPINE
 import models.palm as PALM
 import models.maple as MAPLE
@@ -34,15 +35,12 @@ date_json = date_cache + "/date.json"
 date_labels = date_cache + "/labels.txt"
 
 def vote(voters):
-    joined = voters[0]
-    for i in range(1, len(voters)-1):
-        joined = np.concatenate((joined, voters[i]), axis=1)
+    joined = np.array([np.array(v) for v in voters[0]])
+    for i in range (1, len(voters)-1):
+        joined = np.column_stack((joined, np.array([np.array(v) for v in voters[i]])))
     ballot = []
     for votes in joined:
-        if not isinstance(votes, list):
-            ballot.append(max(set(votes), key=votes.tolist().count))
-        else:
-            ballot.append(max(set(votes), key=votes.count))
+        ballot.append(mode(votes.tolist()))
     return ballot
 
 def main():

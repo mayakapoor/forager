@@ -49,7 +49,7 @@ class Maple:
             output = keras.layers.Dense(len(self.labels), activation = 'softmax')(drop2)
             maple = keras.Model(inputs,output)
             return maple
-            
+
         if (self.use_existing and os.path.exists(self.weights_path) and os.path.exists(self.json_path)):
             json_file = open(self.json_path, 'r')
             loaded_model_json = json_file.read()

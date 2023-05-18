@@ -144,14 +144,19 @@ class HashForest:
         data = self._process_data(data)
         minhashes = self.hash(data)
         all_arrs = []
+        first = True
         for m in minhashes:
             arr = np.array(self.my_forest.query(m, self.my_num_votes))
             lookup_results = []
             for ret in arr:
                 lookup_results.append(self.my_lookup_table[ret])
-            if len(lookup_results) == 0:
+
+            if len(lookup_results) < self.my_num_votes:
+                remain = self.my_num_votes - len(lookup_results)
                 #print("WARNING: no close proximity match found. Using random result")
                 choice = random.choice(range(0, len(self.my_lookup_table)))
-                lookup_results.append(self.my_lookup_table[choice])
+                supplement = [self.my_lookup_table[choice]] * remain
+                lookup_results = lookup_results + supplement
+
             all_arrs.append(lookup_results)
         return all_arrs

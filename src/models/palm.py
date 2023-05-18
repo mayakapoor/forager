@@ -6,7 +6,7 @@ class Palm(HashForest):
     """
     Classifies packets based on a hash of the payload.
     """
-    def __init__(self, hash="sha1", col_name="payload"):
+    def __init__(self, hash="sha1", col_name="text"):
         """
         Initialize the PALM model.
 
