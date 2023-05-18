@@ -11,9 +11,8 @@ regular expression signatures. RExACtor operates in two modes: **token** and
   Forager: A Network Training Classification Toolkit.
           Please choose a task:
 
-     tabularize packet data (TapCap)
-  => mine tokens only (RExACtor)
-     generate regular expression signatures (RExACtor)
+     tabularize packet data (TaPCAP)
+  => generate regular expression signatures (RExACtor)
      configure and train models (ALPINE, PALM, MAPLE, DATE)
      classify packets (ALPINE, PALM, MAPLE, DATE)
      clear current cache
@@ -23,8 +22,7 @@ regular expression signatures. RExACtor operates in two modes: **token** and
   Forager: A Network Training Classification Toolkit.
           Please choose a task:
 
-     tabularize packet data (TapCap)
-     mine tokens only (RExACtor)
+     tabularize packet data (TaPCAP)
   => generate regular expression signatures (RExACtor)
      configure and train models (ALPINE, PALM, MAPLE, DATE)
      classify packets (ALPINE, PALM, MAPLE, DATE)

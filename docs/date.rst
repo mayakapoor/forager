@@ -101,8 +101,7 @@ the training model.
   Forager: A Network Training Classification Toolkit.
           Please choose a task:
 
-     tabularize packet data (TapCap)
-     mine tokens only (RExACtor)
+     tabularize packet data (TaPCAP)
      generate regular expression signatures (RExACtor)
   => configure and train models (ALPINE, PALM, MAPLE, DATE)
      classify packets (ALPINE, PALM, MAPLE, DATE)
@@ -146,6 +145,45 @@ the log will print the model description. The neural network model will be saved
 to ``cache/date/date.json``, and the weights to ``cache/date/date.h5``. The
 provided labels will be stored in ``cache/date/labels.txt``.
 
+**Testing Mode**:
+
+.. code-block::
+
+Forager: A Network Training Classification Toolkit.
+        Please choose a task:
+
+     tabularize packet data (TaPCAP)
+     generate regular expression signatures (RExACtor)
+     configure and train models (ALPINE, PALM, MAPLE, DATE)
+  => classify packets (ALPINE, PALM, MAPLE, DATE)
+     clear current cache
+
+In the main Forager menu, select "classify packets" from the options. You will
+then be prompted to select the model(s) for training. The saved weights and
+data structures from the previous training session will be loaded from the cache.
+If no model is found, an error message will be shown.
+
+.. code-block::
+
+  Forager: A Network Training Classification Toolkit.
+  Please choose one or more models to test (press SPACE to mark, ENTER to continue):
+
+  => (x) ALPINE
+     ( ) PALM
+     ( ) MAPLE
+     ( ) DATE
+
+Next, you will need to provide an input file path for the test data.
+
+.. code-block::
+
+  Forager: A Network Training Classification Toolkit
+  Entering testing mode...
+  CSV file input path? /Users/mkapoor1/Desktop/pop.csv
+  testing DATE
+
+After classification is complete, results will be written to a file under
+"cache/results/<input file name>_results.txt".
 
 **Publication:**
 

@@ -12,12 +12,11 @@ order to create tabular feature data.
   Forager: A Network Training Classification Toolkit.
          Please choose a task:
 
-  => tabularize packet data (TapCap)
-    mine tokens only (RExACtor)
-    generate regular expression signatures (RExACtor)
-    configure and train models (ALPINE, PALM, MAPLE, DATE)
-    classify packets (ALPINE, PALM, MAPLE, DATE)
-    clear current cache
+   => tabularize packet data (TaPCAP)
+       generate regular expression signatures (RExACtor)
+       configure and train models (ALPINE, PALM, MAPLE, DATE)
+       classify packets (ALPINE, PALM, MAPLE, DATE)
+       clear current cache
 
 
 Installation
@@ -32,6 +31,7 @@ Usage
 **CLI:**
 
 .. code-block::
+
     tapcap
 
 **source file:**

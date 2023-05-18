@@ -39,7 +39,10 @@ def vote(voters):
         joined = np.concatenate((joined, voters[i]), axis=1)
     ballot = []
     for votes in joined:
-        ballot.append(max(set(votes), key=votes.tolist().count))
+        if not isinstance(votes, list):
+            ballot.append(max(set(votes), key=votes.tolist().count))
+        else:
+            ballot.append(max(set(votes), key=votes.count))
     return ballot
 
 def main():

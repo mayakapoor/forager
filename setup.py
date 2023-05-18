@@ -5,7 +5,7 @@ with open("README.md", "r", encoding = "utf-8") as fh:
 
 setuptools.setup(
     name = "forager-toolkit",
-    version = "1.9",
+    version = "1.0.0",
     author = "Maya Kapoor",
     author_email = "mkapoor1@uncc.edu",
     description = "A network traffic classification toolkit",
