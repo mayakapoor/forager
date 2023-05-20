@@ -22,7 +22,7 @@ order to create tabular feature data.
 Installation
 ~~~~~~~~~~~~~
 
-`TaPCAP <https://tapcap.readthedocs.io/en/latest/>`_ is installed
+`TaPCAP <https://tapcap.readthedocs.io/en/latest/>`__ is installed
 as a dependency when Forager is installed.
 
 Usage
